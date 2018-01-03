@@ -15,6 +15,7 @@ handler = logging.StreamHandler()
 formatter = logging.Formatter(log_format)
 handler.setFormatter(formatter)
 logger.addHandler(handler)
+support_encoding_list = ['utf-8-sig', 'utf-8', 'gbk']
 
 
 class User:
@@ -51,6 +52,7 @@ class User:
 
 
 def load_config():
+    load_success = False
     config = ConfigParser()
     # 开启大小写敏感
     config.optionxform = str
@@ -67,15 +69,18 @@ def load_config():
         config_name = 'config.default.ini'
         logger.warning('配置文件不存在, 使用默认配置文件 "{}".'.format(config_name))
         config_file = config_file.parent.joinpath(config_name)
-
-    try:
-        # 略坑, Path.resolve() 在 3.5 和 3.6 上表现不一致... 若文件不存在 3.5 直接抛异常, 而 3.6
-        # 只有 Path.resolve(strict=True) 才抛, 但 strict 默认为 False.
-        # 感觉 3.6 的更合理些...
-        config_file = config_file.resolve()
-        config.read(config_file)
-    except Exception as e:
-        sys.exit('# 错误: 配置文件载入失败: {}'.format(e))
+    while len(support_encoding_list) > 0 and not load_success:
+        try:
+            # 略坑, Path.resolve() 在 3.5 和 3.6 上表现不一致... 若文件不存在 3.5 直接抛异常, 而 3.6
+            # 只有 Path.resolve(strict=True) 才抛, 但 strict 默认为 False.
+            # 感觉 3.6 的更合理些...
+            config_file = config_file.resolve()
+            config.read(config_file, encoding=support_encoding_list[0])
+            load_success = True
+        except (UnicodeDecodeError) as e:
+            del support_encoding_list[0]
+            if len(support_encoding_list) == 0 and not load_success:
+                sys.exit('# 错误: 配置文件载入失败: {}'.format(e))
     return config
     # the_config = Config.load(config_dict)
 

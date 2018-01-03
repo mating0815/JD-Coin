@@ -47,7 +47,7 @@
 Debug = yes
 Headless = no
 ;跳过任务的格式“Bean|SignJR”
-Jobs_Skip  = no
+Jobs_skip  = no
 Enable = yes
 
 按以下格式填写用户名和密码
