@@ -28,7 +28,7 @@
 
 ##### 需要手动安装的依赖
 1. Chrome
-2. ChromeDriver(目前已经实现无需用户安装，默认支持Win、Linux-X64、Mac，请自行测试)
+2. ChromeDriver(目前已经实现无需用户安装，默认支持Win、Linux-X64、Mac，请自行测试)<br>
 请下载[ChromeDriver](https://sites.google.com/a/chromium.org/chromedriver/downloads)后，确保该可执行文件可以在`PATH`中被找到
 
 
