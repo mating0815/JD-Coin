@@ -1,17 +1,17 @@
 import traceback
 
-from .daka import Daka
+from .common import Job
 
 
-class DakaApp(Daka):
+class DakaApp(Job):
     job_name = '京东客户端钢镚打卡'
 
     index_url = 'https://m.jr.jd.com/spe/qyy/main/index.html?userType=41'
     sign_url = 'https://ms.jr.jd.com/gw/generic/base/h5/m/baseSignInEncrypt'
     test_url = 'https://ms.jr.jd.com/gw/generic/base/h5/m/baseGetMessByGroupType'
 
-    def __init__(self, session):
-        super().__init__(session)
+    def __init__(self, bot):
+        super().__init__(bot)
         self.sign_data = {}
 
     def get_sign_data(self):

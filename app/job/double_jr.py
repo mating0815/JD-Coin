@@ -3,10 +3,10 @@
 # author: Vincent
 # refer: https://github.com/vc5
 
-from .daka import Daka
+from .common import Job
 
 
-class DoubleSign_JR(Daka):
+class DoubleSign_JR(Job):
     '''
     京东金融客户端双签
     '''

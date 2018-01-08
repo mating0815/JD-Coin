@@ -1,11 +1,10 @@
 import json
 import random
 
-from .common import RequestError
-from .daka import Daka
+from .common import RequestError, Job
 
 
-class BeanApp(Daka):
+class BeanApp(Job):
     """
     京东客户端签到领京豆. 由于是 App (Mobile) 端页面, 登录方式与领钢镚的相同, 不同于电脑端领京豆.
     """
