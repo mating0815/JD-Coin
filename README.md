@@ -35,10 +35,10 @@
 
 
 ## 最近一次更新说明
-1.支持了京东店铺签到，取消了京东股票翻牌（尚未解决自动签到）
-2.采用`requestium` (requests+selenium)重写了Job基类
-3.现在您只需要了解requests，就可以轻松的编写新的签到任务了,参见[Wiki/如何编写新的签到任务](https://github.com/vc5/JD-Coin/wiki/%E5%A6%82%E4%BD%95%E7%BC%96%E5%86%99%E6%96%B0%E7%9A%84%E7%AD%BE%E5%88%B0%E4%BB%BB%E5%8A%A1)
-4.内置了chromedriver，目前支持Win、Linux64、Mac，用户只需要安装Chrome就可以了
+1. 支持了京东店铺签到，取消了京东股票翻牌（尚未解决自动签到）
+2. 采用`requestium` (requests+selenium)重写了Job基类
+3. 现在您只需要了解requests，就可以轻松的编写新的签到任务了,参见[Wiki/如何编写新的签到任务](https://github.com/vc5/JD-Coin/wiki/%E5%A6%82%E4%BD%95%E7%BC%96%E5%86%99%E6%96%B0%E7%9A%84%E7%AD%BE%E5%88%B0%E4%BB%BB%E5%8A%A1)
+4. 内置了chromedriver，目前支持Win、Linux64、Mac，用户只需要安装Chrome就可以了
 
 ## 其他
 
