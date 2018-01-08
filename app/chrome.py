@@ -1,9 +1,16 @@
+import platform
 import time
+from pathlib import Path
 from urllib.parse import urlparse
 
+from requestium import Session
+from requestium.requestium import RequestiumChrome
 from requests.cookies import RequestsCookieJar
 from selenium import webdriver
-from selenium.common.exceptions import NoSuchElementException, WebDriverException
+from selenium.common.exceptions import WebDriverException, NoSuchElementException
+
+# mobileEmulation = {"deviceMetrics": {"width": WIDTH, "height": HEIGHT, "pixelRatio": PIXEL_RATIO}, "userAgent": UA}
+mobile_emulation = {'deviceName': 'iPhone 6'}
 
 
 class MobileChrome:
@@ -14,6 +21,7 @@ class MobileChrome:
     def __init__(self, signbot):
         self.bot = signbot
         self.user = signbot.user
+        self.logger = signbot.user.logger
         try:
             options = webdriver.ChromeOptions()
             if self.user.headless:
@@ -21,15 +29,10 @@ class MobileChrome:
             options.add_argument('lang=zh_CN.UTF-8')
             options.add_argument('user-agent={0}'.format(self.UA))
             self.driver = webdriver.Chrome(chrome_options=options)
-        except WebDriverException:
-            options = webdriver.FirefoxOptions()
-            options.set_headless(True)
-            options.set_preference('general.useragent.override',self.UA)
-            options.set_preference('intl.accept_languages','zh-cn,zh,en-us,en')
-            self.driver = webdriver.Firefox(options=options)
+        except WebDriverException as e:
+            self.logger.warn(e)
         self.driver.set_window_size(width=self.WIDTH, height=self.HEIGHT)
         self.cookies = RequestsCookieJar()
-        self.logger = self.user.logger
 
     def login(self, url='https://home.m.jd.com'):
         '''
@@ -45,7 +48,7 @@ class MobileChrome:
         login_btn = d.find_element_by_id('loginBtn')
         user_input.send_keys(self.user.username)
         password_input.send_keys(self.user.password)
-        if self.config.jd['password'] != '':
+        if self.user.password != '':
             login_btn.click()
             time.sleep(6)
             nickname = self.driver.find_element_by_css_selector('#myHeader span[class$="name_text"]')
@@ -134,3 +137,29 @@ def get_cookies(url, signbot) -> RequestsCookieJar:
     cookiejar = bot.cookies
     bot.quit()
     return cookiejar
+
+
+def find_chrome_driver_path():
+    '''
+    根据系统类型，选择chromedriver
+    :return: 初始化一个
+    '''
+    base_path = Path(__file__).parent / '../bin'
+    if platform.system() == 'Linux':
+        wp = base_path.joinpath('chromedriver_linux64').resolve()
+    elif platform.system() == 'Windows':
+        wp = base_path.joinpath('chromedriver_win32.exe').resolve()
+    elif platform.system() == 'Darwin':
+        wp = base_path.joinpath('chromedriver_mac').resolve()
+    else:
+        wp = Path('chromedriver')
+    return wp
+
+
+class JdSession(Session):
+
+    def _start_chrome_browser(self):
+        # Create driver process
+        return RequestiumChrome(self.webdriver_path,
+                                chrome_options=self.webdriver_options,
+                                default_timeout=self.default_timeout)

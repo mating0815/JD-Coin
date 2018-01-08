@@ -1,13 +1,12 @@
 import traceback
 
-import chrome as browser
-from .common import find_value, RequestError
+from .common import Job, find_value, RequestError
 
 
 # import browser
 
 
-class Daka:
+class Daka(Job):
     job_name = '小白卡钢镚打卡'
 
     index_url = 'https://bk.jd.com/m/channel/login/daka.html'
@@ -17,46 +16,47 @@ class Daka:
     job_gb_url = 'https://bk.jd.com/m/channel/login/recDakaGb.html'
     is_mobile = True
 
-    def __init__(self, bot):
-        self.bot = bot
-        self.session = bot.session
-        self.job_success = False
-        self.logger = bot.user.logger
+    # def __init__(self, bot):
+    #     self.bot = bot
+    #     self.session = bot.session
+    #     self.job_success = False
+    #     self.logger = bot.user.logger
+    #     self.ua = bot.user.ua
 
-    def run(self):
-        self.logger.info('Job Start: {}'.format(self.job_name))
+    # def run(self):
+    #     self.logger.info('Job Start: {}'.format(self.job_name))
+    #
+    #     is_login = self.is_login()
+    #     self.logger.info('登录状态: {}'.format(is_login))
+    #
+    #     if not is_login:
+    #         self.logger.info('进行登录...')
+    #         try:
+    #             self.login()
+    #             is_login = True
+    #             self.logger.info('登录成功')
+    #         except Exception as e:
+    #             self.logger.error('登录失败: {}'.format(repr(e)))
+    #
+    #     if is_login:
+    #         if self.is_signed():
+    #             self.job_success = True
+    #         else:
+    #             self.job_success = self.sign()
+    #
+    #     self.logger.info('Job End.')
 
-        is_login = self.is_login()
-        self.logger.info('登录状态: {}'.format(is_login))
+    # def is_login(self):
+    #     r = self.session.get(self.test_url, allow_redirects=False)
+    #
+    #     if r.is_redirect and 'passport' in r.headers['Location']:
+    #         return False
+    #     else:
+    #         return True
 
-        if not is_login:
-            self.logger.info('进行登录...')
-            try:
-                self.login()
-                is_login = True
-                self.logger.info('登录成功')
-            except Exception as e:
-                self.logger.error('登录失败: {}'.format(repr(e)))
-
-        if is_login:
-            if self.is_signed():
-                self.job_success = True
-            else:
-                self.job_success = self.sign()
-
-        self.logger.info('Job End.')
-
-    def is_login(self):
-        r = self.session.get(self.test_url, allow_redirects=False)
-
-        if r.is_redirect and 'passport' in r.headers['Location']:
-            return False
-        else:
-            return True
-
-    def login(self):
-        cookies = browser.get_cookies(url=self.login_url, signbot=self.bot)
-        self.session.cookies.update(cookies)
+    # def login(self):
+    #     cookies = browser.get_cookies(url=self.login_url, signbot=self.bot)
+    #     self.session.cookies.update(cookies)
 
     def is_signed(self):
         r = self.session.get(self.index_url)

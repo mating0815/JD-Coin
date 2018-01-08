@@ -7,7 +7,9 @@ import traceback
 from pathlib import Path
 
 import requests
+from selenium.webdriver import ChromeOptions
 
+from chrome import find_chrome_driver_path, JdSession
 from config import users
 from job import jobs_all
 
@@ -32,9 +34,13 @@ class SignBot:
             job = job_class(self)
 
             # 默认使用移动设备User-agent,否则使用PC版User-Agent
-            if not job.is_mobile:
-                job.session.headers.update({
-                    'User-Agent': self.user.ua_pc})
+            # if job.is_mobile:
+            #     job.session.headers.update({
+            #         'User-Agent': self.user.ua
+            #     })
+            # else:
+            #     job.session.headers.update({
+            #         'User-Agent': self.user.ua_pc})
 
             try:
                 job.run()
@@ -57,23 +63,24 @@ class SignBot:
 
         self.save_session(self.session)
 
-    def make_session(self, config) -> requests.Session:
-        session = requests.Session()
+    def make_session(self, user) -> JdSession:
+        chrome_path = find_chrome_driver_path()
+        session = JdSession(webdriver_path=str(chrome_path),
+                            browser='chrome', webdriver_options=ChromeOptions())
+        session.webdriver_options.add_argument('lang=zh_CN.UTF-8')
+        if user.headless:
+            session.webdriver_options.add_argument('headless')
 
-        session.headers.update({
-            'User-Agent': config.ua
-        })
-
-        data_file = Path(__file__).parent.joinpath('../data/' + config.cookiesname)
+        data_file = Path(__file__).parent.joinpath('../data/' + user.cookiesname)
 
         if data_file.exists():
             try:
                 bytes = data_file.read_bytes()
                 cookies = pickle.loads(bytes)
                 session.cookies = cookies
-                logging.info('# 从文件加载 %s 成功.', config.cookiesname)
+                logging.info('# 从文件加载 %s 成功.', user.cookiesname)
             except Exception as e:
-                logging.info('# 未能成功载入 %s, 从头开始~', config.cookiesname)
+                logging.info('# 未能成功载入 %s, 从头开始~', user.cookiesname)
 
         return session
 
@@ -92,15 +99,6 @@ def main():
     for jd_user in users:
         bot = SignBot(jd_user)
         bot.sign()
-
-
-
-
-
-
-
-
-
 
 
 def proxy_patch():

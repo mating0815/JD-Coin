@@ -15,7 +15,7 @@
 
 5. 创建配置文件（可选）
 
-6. 运行：`python app/main.py`
+6. 运行：`python app/main.py`（默认使用`conf/config.ini`登陆）
 
 <br>
 
@@ -24,16 +24,21 @@
 
 直接登录京东较复杂，不易实现，因此采用了[三种方式(参见Wiki)](https://github.com/vc5/JD-Coin/wiki/%E7%99%BB%E5%BD%95%E6%96%B9%E5%BC%8F))进行登录：
 
-#### 默认登录方式：使用selenium调用chrome进行登陆
+#### 默认登录方式：使用selenium调用chrome进行登陆,请确认您已经安装了Chrome
 
 ##### 需要手动安装的依赖
 1. Chrome
-2. ChromeDriver  
+2. ChromeDriver(目前已经实现无需用户安装，默认支持Win、Linux-X64、Mac，请自行测试)
 请下载[ChromeDriver](https://sites.google.com/a/chromium.org/chromedriver/downloads)后，确保该可执行文件可以在`PATH`中被找到
 
 
 
 
+## 最近一次更新说明
+1.支持了京东店铺签到，取消了京东股票翻牌（尚未解决自动签到）
+2.采用`requestium` (requests+selenium)重写了Job基类
+3.现在您只需要了解requests，就可以轻松的编写新的签到任务了,参见[Wiki/如何编写新的签到任务](https://github.com/vc5/JD-Coin/wiki/%E5%A6%82%E4%BD%95%E7%BC%96%E5%86%99%E6%96%B0%E7%9A%84%E7%AD%BE%E5%88%B0%E4%BB%BB%E5%8A%A1)
+4.内置了chromedriver，目前支持Win、Linux64、Mac，用户只需要安装Chrome就可以了
 
 ## 其他
 
@@ -54,7 +59,6 @@ Enable = yes
 [vincent]
 Username = adqwes123as
 Password = asd123zcasd
-Enable = no
 ```
 
 #### 帐号/密码：
@@ -98,7 +102,7 @@ Jobs_skip=DataStation|Daka
 | DataStation | 流量加油站签到领流量 |
 | RedPacket | 京东小金库现金红包（已下线） |
 |DoubleSign_JR|京东金融双签（已下线）|
-
+|ShopSign|京东店铺签到|
 
 ### 设置网络代理
 
@@ -108,14 +112,14 @@ Jobs_skip=DataStation|Daka
 
 2. 运行:
 ```
-python app/main.py -c config.json
+python app/main.py -c config.ini
 
 ```
 
 ## Example
 
 ```log
-2017-03-15 10:38:48,711 root[config] INFO: 使用配置文件 "config.json".
+2017-03-15 10:38:48,711 root[config] INFO: 使用配置文件 "config.ini".
 2017-03-15 10:38:48,745 root[main] INFO: # 从文件加载 cookies 成功.
 2017-03-15 10:38:48,745 jobs[daka] INFO: Job Start: 小白卡钢镚打卡
 2017-03-15 10:38:49,734 jobs[daka] INFO: 登录状态: True

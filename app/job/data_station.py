@@ -1,7 +1,7 @@
-from .daka import Daka
+from .common import Job
 
 
-class DataStation(Daka):
+class DataStation(Job):
     """
     流量加油站
     """

@@ -1,7 +1,7 @@
-from .daka import Daka
+from .common import Job
 
 
-class RedPacket(Daka):
+class RedPacket(Job):
     job_name = '京东小金库现金红包'
 
     index_url = 'https://m.jr.jd.com/udc-active/2017/618RedPacket/html/index.html'

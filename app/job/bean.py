@@ -1,10 +1,9 @@
 from pyquery import PyQuery
 
-from . import common
-from .daka import Daka
+from .common import Job, find_value
 
 
-class Bean(Daka):
+class Bean(Job):
     job_name = '京东会员页签到领京豆'
 
     index_url = 'https://vip.jd.com'
@@ -55,7 +54,7 @@ class Bean(Daka):
     def _get_token(self):
         html = self._get_page_data()
         pattern = r'token:\s*"(\d+)"'
-        token = common.find_value(pattern, html)
+        token = find_value(pattern, html)
 
         if not token:
             raise Exception('token 未找到.')

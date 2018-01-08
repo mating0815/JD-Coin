@@ -17,7 +17,11 @@ handler.setFormatter(formatter)
 logger.addHandler(handler)
 support_encoding_list = ['utf-8-sig', 'utf-8', 'gbk']
 
-
+UserAgents = {'pc': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu '
+                    'Chromium/62.0.3202.94 Chrome/62.0.3202.94 Safari/537.36',
+              'mobile': 'Mozilla/5.0 (iPhone; CPU iPhone OS 11_2 like Mac OS X) AppleWebKit/604.4.7 (KHTML, '
+                        'like Gecko) Version/11.0 Mobile/15C114 Safari/604.1 '
+              }
 class User:
     def __init__(self, conf_section: ConfigParser):
         self.debug = False
@@ -42,12 +46,13 @@ class User:
             self.logger = logger.getChild(real_username)
             self.username = real_username
             self.password = real_password
+            self.cookiesname = '{0}.cookies'.format(real_username)
         except Exception as e:
             logger.error('获取京东帐号出错: ' + repr(e))
 
         self.jobs_skip = cs.get('Jobs_skip', [])
         # the_config.cookiesname = real_username
-        self.cookiesname = '{0}.cookies'.format(real_username)
+
         return self
 
 
@@ -82,9 +87,7 @@ def load_config():
             if len(support_encoding_list) == 0 and not load_success:
                 sys.exit('# 错误: 配置文件载入失败: {}'.format(e))
     return config
-    # the_config = Config.load(config_dict)
 
-    # return the_config
 
 
 def get_users():
