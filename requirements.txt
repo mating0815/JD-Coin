@@ -1,2 +1,3 @@
 requestium
 pyquery
+beautifulsoup4

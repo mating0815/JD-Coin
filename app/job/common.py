@@ -7,9 +7,11 @@ import time
 
 from requests import Response
 from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver import ChromeOptions
 from selenium.webdriver.common.touch_actions import TouchActions
+from selenium.webdriver.remote import webelement
 
-from chrome import mobile_emulation
+# from chrome import mobile_emulation
 from config import UserAgents
 
 
@@ -30,6 +32,22 @@ def find_value(pattern, string, default=None, flags=0):
         return m.group(1)
     else:
         return default
+
+
+def save_element_as_png(elem: webelement.WebElement, filename):
+    from PIL import Image
+    from io import BytesIO
+    x = elem.location['x']
+    y = elem.location['y']
+    w = elem.size['width']
+    h = elem.size['height']
+    img_bytes = elem.parent.get_screenshot_as_png()
+    img = Image.open(BytesIO(img_bytes))
+    box = (x, y, x + w, y + h)
+    img_out = img.crop(box)
+    img_out.save(filename)
+    return img_out
+
 
 
 class Job:
@@ -81,6 +99,7 @@ class Job:
                 self.job_success = True
             else:
                 self.job_success = self.sign()
+                self.report()
 
         self.logger.info('Job End.')
 
@@ -97,7 +116,11 @@ class Job:
         # self.session.cookies.update(cookies)
         self.session._driver = None
         if self.is_mobile:
-            self.session.webdriver_options.add_experimental_option("mobileEmulation", mobile_emulation)
+            mobile_emulation = {'deviceName': 'iPhone 6'}
+            options = ChromeOptions()
+            options.add_experimental_option("mobileEmulation", mobile_emulation)
+            options.add_argument('lang=zh_CN.UTF-8')
+            self.session.webdriver_options = options
             driver = self.session.driver
             # 模拟触控操作
             # https://seleniumhq.github.io/selenium/docs/api/py/webdriver/selenium.webdriver.common.touch_actions.html
@@ -120,6 +143,10 @@ class Job:
         self.session.driver.close()
 
     def login_pc(self, url):
+        options = ChromeOptions()
+        options.add_argument('lang=zh_CN.UTF-8')
+        options.add_argument('user-agent={0}'.format(UserAgents['pc']))
+        self.session.webdriver_options = options
         driver = self.session.driver
         driver.get(url)
         nickname = ''
