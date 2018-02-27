@@ -101,7 +101,7 @@ Jobs_skip=DataStation|Daka
 | SignJR | 京东金融签到领奖励 |
 | DataStation | 流量加油站签到领流量 |
 | RedPacket | 京东小金库现金红包（已下线） |
-|DoubleSign_JR|京东金融双签|
+|DoubleSign_JR|京东客户端双签|
 |ShopSign|京东店铺签到|
 
 ### 设置网络代理
