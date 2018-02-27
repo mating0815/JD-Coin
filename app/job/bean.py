@@ -41,7 +41,10 @@ class Bean(Job):
 
         if response['success']:
             # 签到成功, 获得若干个京豆
-            beans_get = response['result']['jdnum']
+            try:
+                beans_get = response['result']['jdnum']
+            except:
+                beans_get = '?'
             self.logger.info('签到成功, 获得 {} 个京豆.'.format(beans_get))
             return True
 
