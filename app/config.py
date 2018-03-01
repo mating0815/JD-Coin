@@ -2,7 +2,7 @@ import argparse
 import logging
 import sys
 from base64 import b85decode
-from configparser import ConfigParser
+from configparser import RawConfigParser
 from pathlib import Path
 
 #日志配置
@@ -23,7 +23,7 @@ UserAgents = {'pc': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, 
                         'like Gecko) Version/11.0 Mobile/15C114 Safari/604.1 '
               }
 class User:
-    def __init__(self, conf_section: ConfigParser):
+    def __init__(self, conf_section: RawConfigParser):
         self.debug = False
         self.headless = False
         self.logger = logger
@@ -31,7 +31,7 @@ class User:
         self.ua = 'Mozilla/5.0 (iPhone; CPU iPhone OS 11_2 like Mac OS X) AppleWebKit/604.4.7 (KHTML, like Gecko) Version/11.0 Mobile/15C114 Safari/604.1'
         self.__load__(conf_section)
 
-    def __load__(self, cs: ConfigParser):
+    def __load__(self, cs: RawConfigParser):
         '''
         从配置文件中初始化一个用户的信息
         :param cs: ConfigParser Section
@@ -58,7 +58,7 @@ class User:
 
 def load_config():
     load_success = False
-    config = ConfigParser()
+    config = RawConfigParser()
     # 开启大小写敏感
     config.optionxform = str
     parser = argparse.ArgumentParser()
