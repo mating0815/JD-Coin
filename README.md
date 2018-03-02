@@ -1,11 +1,11 @@
 ## 自动登录京东，打卡领钢镚，签到领京豆
 
-[![Python](https://img.shields.io/badge/Python-3.5%2B-blue.svg)](https://www.python.org)
+[![Python](https://img.shields.io/badge/Python-3.6%2B-blue.svg)](https://www.python.org)
 
 
 ### 使用方法：
 
-1. 安装`Python` (3.5 或更高版本）
+1. 安装`Python` (3.6 或更高版本）
 
 2. 建立虚拟运行环境（可选）
 
@@ -28,17 +28,12 @@
 
 ##### 需要手动安装的依赖
 1. Chrome
-2. ChromeDriver(目前已经实现无需用户安装，默认支持Win、Linux-X64、Mac，请自行测试)<br>
-请下载[ChromeDriver](https://sites.google.com/a/chromium.org/chromedriver/downloads)后，确保该可执行文件可以在`PATH`中被找到
 
 
 
 
-## 最近一次更新说明
-1. 支持了京东店铺签到，取消了京东股票翻牌（尚未解决自动签到）
-2. 采用`requestium` (requests+selenium)重写了Job基类
-3. 现在您只需要了解requests，就可以轻松的编写新的签到任务了,参见[Wiki/如何编写新的签到任务](https://github.com/vc5/JD-Coin/wiki/%E5%A6%82%E4%BD%95%E7%BC%96%E5%86%99%E6%96%B0%E7%9A%84%E7%AD%BE%E5%88%B0%E4%BB%BB%E5%8A%A1)
-4. 内置了chromedriver，目前支持Win、Linux64、Mac，用户只需要安装Chrome就可以了
+## 自定义任务
+1. 现在您只需要了解requests，就可以轻松的编写新的签到任务了,参见[Wiki/如何编写新的签到任务](https://github.com/vc5/JD-Coin/wiki/%E5%A6%82%E4%BD%95%E7%BC%96%E5%86%99%E6%96%B0%E7%9A%84%E7%AD%BE%E5%88%B0%E4%BB%BB%E5%8A%A1)
 
 ## 其他
 
