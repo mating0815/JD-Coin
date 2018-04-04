@@ -158,8 +158,12 @@ class Job:
         user_input.send_keys(self.bot.user.username)
         password_input.send_keys(self.bot.user.password)
         login_btn.click()
+        login_btn.is_displayed()
         time.sleep(6)
         try:
+            authcode_div = driver.find_element_by_css_selector('#o-authcode')
+            if authcode_div.is_displayed():
+                authcode = input('请前往网页输入验证码完成登陆，然后返回此处按Enter继续')
             nickname = driver.find_element_by_css_selector('#shortcut-2014 a[class=nickname]')
             nickname = nickname.text
             self.logger.info('登陆成功，欢迎{}'.format(nickname))

@@ -34,6 +34,9 @@ class Bean(Job):
         return signed
 
     def sign(self):
+        ##TODO
+        ##每日在PC端和移动端只能累计签到一次
+        ## 此任务计划保留，token获取需要修复
         token = self._get_token()
         payload = {'token': token}
 
